@@ -1,0 +1,36 @@
+MODEL:
+  TYPE: densemamba
+  NAME: densemamba_small_224
+  DROP_PATH_RATE: 0.2
+  NUM_CLASSES: 241
+
+DENSEMAMBA:
+  EMBED_DIM: 64
+  DEPTHS: [2, 2, 2, 2]
+  D_STATE: 16
+  DT_RANK: "auto"
+  SSM_RATIO: 2.0
+  MLP_RATIO: 4.0
+  DOWNSAMPLE: "v1"
+
+TRAIN:
+  EPOCHS: 3
+  WARMUP_EPOCHS: 0
+  BASE_LR: 1e-4
+  WEIGHT_DECAY: 0.05
+  OPTIMIZER:
+    NAME: adamw
+    BETAS: [0.9, 0.999]
+  LR_SCHEDULER:
+    NAME: cosine
+    MIN_LR: 1e-6
+
+DATA:
+  BATCH_SIZE: 2
+  DATA_PATH: /home/khanghv/ResVmambaDense/ResVMambaDense/Dataset/CNFOOD-241
+  NUM_WORKERS: 2
+
+AMP_ENABLE: true
+OUTPUT: /home/khanghv/ResVmambaDense/ResVMambaDense/output_densemamba_debug
+PRINT_FREQ: 100
+MODEL_EMA: false

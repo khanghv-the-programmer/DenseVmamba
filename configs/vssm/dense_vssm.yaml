@@ -1,0 +1,68 @@
+BASE: []
+MODEL:
+  TYPE: densemamba
+  NAME: densemamba_small_224
+  NUM_CLASSES: 241
+  DROP_PATH_RATE: 0.3
+  LABEL_SMOOTHING: 0.1
+  MMCKPT: false
+  DENSEMAMBA:
+    PATCH_SIZE: 4
+    IN_CHANS: 3
+    DEPTHS: [1, 1, 3, 1]
+    EMBED_DIM: 32
+    D_STATE: 16
+    DT_RANK: "auto"
+    SSM_RATIO: 1.5
+    SHARED_SSM: False
+    SOFTMAX: False
+    MLP_RATIO: 2.0
+    PATCH_NORM: True
+    DOWNSAMPLE: "v2"
+
+
+TRAIN:
+  EPOCHS: 300
+  WARMUP_EPOCHS: 20
+  BASE_LR: 5e-4
+  WARMUP_LR: 5e-7
+  MIN_LR: 5e-6
+  WEIGHT_DECAY: 0.05
+  CLIP_GRAD: 5.0
+  ACCUMULATION_STEPS: 1
+  OPTIMIZER:
+    NAME: adamw
+    EPS: 1e-8
+    BETAS: [0.9, 0.999]
+    MOMENTUM: 0.9
+  LR_SCHEDULER:
+    NAME: cosine
+    DECAY_EPOCHS: 30
+    DECAY_RATE: 0.1
+    WARMUP_PREFIX: True
+    GAMMA: 0.1
+    MULTISTEPS: []
+
+AUG:
+  COLOR_JITTER: 0.4
+  AUTO_AUGMENT: rand-m9-mstd0.5-inc1
+  REPROB: 0.25
+  REMODE: pixel
+  RECOUNT: 1
+  MIXUP: 0.8
+  CUTMIX: 1.0
+  MIXUP_PROB: 1.0
+  MIXUP_SWITCH_PROB: 0.5
+  MIXUP_MODE: batch
+
+DATA:
+  IMG_SIZE: 224
+  DATASET: cnfood241
+  INTERPOLATION: bicubic
+  PIN_MEMORY: False
+  NUM_WORKERS: 2
+
+AMP_ENABLE: True
+PRINT_FREQ: 10
+SAVE_FREQ: 1
+SEED: 42
